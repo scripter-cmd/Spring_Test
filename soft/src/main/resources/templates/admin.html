@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - JSON Files</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+            border: none;
+        }
+        .btn-info:hover {
+            background-color: #138496;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #343a40;
+            color: white;
+        }
+        .card {
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-cogs"></i> Admin Panel - JSON Files</h3>
+            </div>
+            <div class="card-body">
+                <!-- Search Bar -->
+                <div class="input-group search-bar">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search JSON Files...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" id="searchButton"><i class="fas fa-search"></i> Search</button>
+                    </div>
+                </div>
+
+                <!-- JSON Files Table -->
+                <h5>Available JSON Files:</h5>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">File Name</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="file, iterStat : ${jsonFiles}">
+                            <td th:text="${iterStat.index + 1}"></td>
+                            <td th:text="${file}"></td>
+                            <td>
+                                <a th:href="@{/viewFile/{filename}(filename=${file})}" class="btn btn-info">View</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Today's Buyers Table -->
+                <h5 class="mt-4">Today's Buyers:</h5>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Mobile Number</th>
+                            <th scope="col">Purchase Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="buyer, iterStat : ${buyers}">
+                            <td th:text="${iterStat.index + 1}"></td>
+                            <td th:text="${buyer.name}"></td>
+                            <td th:text="${buyer.mobileNumber}"></td>
+                            <td th:text="${buyer.purchaseDetails}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

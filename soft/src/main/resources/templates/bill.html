@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .invoice-info {
+            margin-bottom: 20px;
+        }
+
+        .invoice-info p {
+            font-size: 18px;
+            color: #333;
+            margin: 5px 0;
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .products-table th, .products-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .products-table th {
+            background-color: #f1f1f1;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #34b7f1;
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0288d1;
+        }
+
+    </style>
+</head>
+<body onload="loadInvoiceData()">
+
+<div class="container">
+    <h1>Invoice Details</h1>
+
+    <div class="invoice-info" id="invoiceInfo">
+        <!-- Invoice Info will be dynamically loaded here -->
+    </div>
+
+    <table class="products-table" id="productsTable">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Products data will be dynamically loaded here -->
+        </tbody>
+    </table>
+
+    <div class="buttons">
+        <button class="button" onclick="window.print()">Print Invoice</button>
+        <button class="button" onclick="window.location.href='/home'">Go to Home</button>
+    </div>
+</div>
+
+<script>
+  function loadInvoiceData() {
+    // Use fetch API to read the local JSON file
+    const filePath = "[[${jsonData}]]"; 
+    let path = "http://localhost:8080/invoices/" + filePath + ".json";
+    console.log(path);
+
+    fetch(path)
+    .then(response => response.text()) // Get raw text to handle escape characters
+    .then(data => {
+        console.log('Raw Data:', data);
+
+        // Clean the string to remove escape characters and make it valid JSON
+        let cleanedData = cleanJsonString(data);
+
+        // Trim the data to ensure no extraneous characters
+        cleanedData = cleanedData.trim();
+        console.log('Cleaned Data:', cleanedData);
+
+        try {
+            // Manually process the cleaned data dynamically
+            const invoiceData = manuallyParseData(cleanedData);
+
+            // Display the parsed data
+            displayInvoiceData(invoiceData);
+        } catch (error) {
+            console.error('Error processing the data:', error);
+        }
+    })
+    .catch(error => {
+        console.error('Error loading the JSON file:', error);
+    });
+}
+
+// Clean the string to remove escape characters
+function cleanJsonString(data) {
+    return data.replace(/\\"/g, '"').replace(/\\(?!["\\])/g, '');  // Unescape quotes and remove unnecessary backslashes
+}
+
+// Manually parse the data without JSON.parse
+function manuallyParseData(data) {
+    const invoiceData = {};
+
+    // Extract basic fields
+    invoiceData.mobileNumber = extractValue(data, 'mobileNumber');
+    invoiceData.customerName = extractValue(data, 'customerName');
+    invoiceData.invoiceDate = extractValue(data, 'invoiceDate');
+    invoiceData.balanceDue = extractValue(data, 'balanceDue');
+    invoiceData.collectedAmount = extractValue(data, 'collectedAmount');
+    invoiceData.changesDue = extractValue(data, 'changesDue');
+    invoiceData.paymentMode = extractValue(data, 'paymentMode');
+    invoiceData.products = extractValue(data, 'products');  // Assuming products is a string
+
+    // Return the manually constructed invoice data object
+    return invoiceData;
+}
+
+// Helper function to extract values from the string based on the field name
+function extractValue(data, fieldName) {
+    const regex = new RegExp(`"${fieldName}":(?:\"([^\"]*)\"|([^,}]*))`);
+    const match = data.match(regex);
+    return match ? (match[1] || match[2] || '').trim() : ''; // Return empty string if not found
+}
+
+// Display the invoice data
+// function displayInvoiceData(data) {
+//     const { mobileNumber, customerName, invoiceDate, balanceDue, collectedAmount, changesDue, paymentMode, products } = data;
+
+//     // Set invoice info
+//     const invoiceInfoElement = document.getElementById('invoiceInfo');
+//     invoiceInfoElement.innerHTML = `
+//         <p><strong>Mobile Number:</strong> ${mobileNumber}</p>
+//         <p><strong>Customer Name:</strong> ${customerName}</p>
+//         <p><strong>Invoice Date:</strong> ${invoiceDate}</p>
+//         <p><strong>Balance Due:</strong> ${balanceDue}</p>
+//         <p><strong>Collected Amount:</strong> ${collectedAmount}</p>
+//         <p><strong>Changes Due:</strong> ${changesDue}</p>
+//         <p><strong>Payment Mode:</strong> ${paymentMode}</p>
+//     `;
+
+//     // Set products table
+//     const productsTableBody = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
+
+//     if (products) {
+//         // Manually parse the products string into an array
+//         const productList = manuallyParseProducts(products);
+
+//         productList.forEach(product => {
+//             const row = productsTableBody.insertRow();
+//             row.innerHTML = `
+//                 <td>${product.item}</td>
+//                 <td>${product.quantity}</td>
+//                 <td>${product.price}</td>
+//                 <td>${product.total}</td>
+//             `;
+//         });
+//     } else {
+//         console.error('Products data is undefined or empty');
+//     }
+// }
+
+// Manually parse the products string into an array of objects
+function manuallyParseProducts(products) {
+    // Log the raw products string to ensure it's correctly formatted
+    console.log("Raw Products Data:", products);
+
+    // Remove unwanted characters (square brackets and quotes)
+    products = products.replace(/[\[\]"]+/g, ''); // Remove square brackets and extra quotes
+    console.log("Cleaned Products Data:", products);
+
+    // Split into individual product strings (i.e., split by '},{')
+    const productArray = products.split('},{');
+    console.log("Split Product Array:", productArray);
+
+    return productArray.map(productStr => {
+        const productObj = {};
+        const productDetails = productStr.split(',');
+
+        // Log the product details for debugging
+        console.log("Product Details:", productDetails);
+
+        productDetails.forEach(detail => {
+            const parts = detail.split(':');
+
+            // Check if split resulted in a valid key-value pair
+            if (parts.length === 2) {
+                const key = parts[0].trim().replace(/"/g, ''); // Remove extra quotes around key
+                const value = parts[1].trim().replace(/"/g, ''); // Remove extra quotes around value
+                
+                // Only set the key-value pair if both are valid
+                if (key && value) {
+                    productObj[key] = value;
+                }
+            }
+        });
+
+        return productObj;
+    });
+}
+
+// Display the invoice data
+function displayInvoiceData(data) {
+    const { mobileNumber, customerName, invoiceDate, balanceDue, collectedAmount, changesDue, paymentMode, products } = data;
+
+    // Set invoice info
+    const invoiceInfoElement = document.getElementById('invoiceInfo');
+    invoiceInfoElement.innerHTML = `
+        <p><strong>Mobile Number:</strong> ${mobileNumber}</p>
+        <p><strong>Customer Name:</strong> ${customerName}</p>
+        <p><strong>Invoice Date:</strong> ${invoiceDate}</p>
+        <p><strong>Balance Due:</strong> ${balanceDue}</p>
+        <p><strong>Collected Amount:</strong> ${collectedAmount}</p>
+        <p><strong>Changes Due:</strong> ${changesDue}</p>
+        <p><strong>Payment Mode:</strong> ${paymentMode}</p>
+    `;
+
+    // Set products table
+    const productsTableBody = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
+
+    if (products) {
+        // Manually parse the products string into an array
+        const productList = manuallyParseProducts(products);
+
+        // Log the parsed product list for debugging
+        console.log("Parsed Product List:", productList);
+
+        // Insert each product into the table
+        productList.forEach(product => {
+            const row = productsTableBody.insertRow();
+            row.innerHTML = `
+                <td>${product.item || 'N/A'}</td>
+                <td>${product.quantity || 'N/A'}</td>
+                <td>${product.price || 'N/A'}</td>
+                <td>${product.total || 'N/A'}</td>
+            `;
+        });
+    } else {
+        console.error('Products data is undefined or empty');
+    }
+}
+
+
+</script>
+
+</body>
+</html>

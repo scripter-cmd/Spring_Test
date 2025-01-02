@@ -1,0 +1,13 @@
+server Run on my system
+client will use the app
+
+- > admin(me) give access and create user in db
+- > user side access stock db and price (add,update,delete) DB(json) .
+- > Test all backend possiable .
+
+
+create sample testing Code and db setup
+
+
+
+

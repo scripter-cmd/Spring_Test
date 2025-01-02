@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment and Save Success</title>
+    <style>
+        /* Reset margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body and background */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container for the message */
+        .container {
+            background-color: #ffffff;
+            padding: 40px 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            opacity: 0; /* Initially set to 0 */
+            animation: fadeIn 1.5s ease-in-out forwards; /* Simple fade-in animation */
+        }
+
+        /* Success icon */
+        .success-icon {
+            font-size: 70px;
+            color: #1dd336;
+            margin-bottom: 20px;
+        }
+
+        /* Heading */
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* Message */
+        p {
+            font-size: 16px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        /* Buttons container */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Button */
+        .button {
+            background-color: #34b7f1;
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0288d1;
+        }
+
+        /* Animation for fading in the container */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">
+            &#10004; <!-- Unicode checkmark icon -->
+        </div>
+        <h1>Payment and Save Successfully</h1>
+        <p>Your payment and invoice have been successfully processed and saved.</p>
+        
+        <!-- Buttons -->
+        <div class="buttons">
+            <button class="button" onclick="window.location.href='/home'">Go to Home</button>
+            <button class="button" onclick="window.location.href='/bill'">Bill</button>
+        </div>
+    </div>
+</body>
+</html>

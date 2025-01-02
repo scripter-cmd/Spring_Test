@@ -1,0 +1,112 @@
+{
+  "id": 1001,
+  "products": {
+    "Lays Classic Salted": {
+      "name": "Lays Classic Salted",
+      "brand": "Lays",
+      "type": "Chips",
+      "product_id": "P0001",
+      "sizes": [
+        { "size": "25g", "price": "10" },
+        { "size": "50g", "price": "20" },
+        { "size": "100g", "price": "40" }
+      ]
+    },
+    "Pepsi": {
+      "name": "Pepsi",
+      "brand": "PepsiCo",
+      "type": "Soft Drink",
+      "product_id": "P0002",
+      "sizes": [
+        { "size": "300ml", "price": "35" },
+        { "size": "500ml", "price": "50" },
+        { "size": "1L", "price": "90" }
+      ]
+    },
+    "Dove Beauty Bar": {
+      "name": "Dove Beauty Bar",
+      "brand": "Dove",
+      "type": "Soap",
+      "product_id": "P0003",
+      "sizes": [
+        { "size": "75g", "price": "40" },
+        { "size": "150g", "price": "75" }
+      ]
+    },
+    "Colgate Toothpaste": {
+      "name": "Colgate Toothpaste",
+      "brand": "Colgate",
+      "type": "Toothpaste",
+      "product_id": "P0004",
+      "sizes": [
+        { "size": "50g", "price": "25" },
+        { "size": "100g", "price": "50" },
+        { "size": "200g", "price": "90" }
+      ]
+    },
+    "Tropicana Orange Juice": {
+      "name": "Tropicana Orange Juice",
+      "brand": "Tropicana",
+      "type": "Juice",
+      "product_id": "P0005",
+      "sizes": [
+        { "size": "250ml", "price": "30" },
+        { "size": "1L", "price": "120" }
+      ]
+    },
+    "Lux Soap": {
+      "name": "Lux Soap",
+      "brand": "Lux",
+      "type": "Soap",
+      "product_id": "P0006",
+      "sizes": [
+        { "size": "100g", "price": "35" },
+        { "size": "200g", "price": "60" }
+      ]
+    },
+    "Sprite": {
+      "name": "Sprite",
+      "brand": "Coca Cola",
+      "type": "Soft Drink",
+      "product_id": "P0007",
+      "sizes": [
+        { "size": "300ml", "price": "30" },
+        { "size": "1L", "price": "85" }
+      ]
+    },
+    "KitKat Chocolate": {
+      "name": "KitKat Chocolate",
+      "brand": "Nestle",
+      "type": "Chocolate",
+      "product_id": "P0008",
+      "sizes": [
+        { "size": "40g", "price": "20" },
+        { "size": "100g", "price": "50" }
+      ]
+    },
+    "Real Fruit Juice": {
+      "name": "Real Fruit Juice",
+      "brand": "Real",
+      "type": "Juice",
+      "product_id": "P0009",
+      "sizes": [
+        { "size": "200ml", "price": "25" },
+        { "size": "1L", "price": "100" }
+      ]
+    },
+    "Oreo Biscuits": {
+      "name": "Oreo Biscuits",
+      "brand": "Cadbury",
+      "type": "Biscuits",
+      "product_id": "P0010",
+      "sizes": [
+        { "size": "50g", "price": "15" },
+        { "size": "100g", "price": "30" }
+      ]
+    },
+    "...": {
+      "...": "(Additional products up to 100 will follow this pattern)"
+    }
+  }
+}
+
